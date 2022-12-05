@@ -5,7 +5,7 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub struct Editor {
     should_quit: bool,
-    terminal: Terminal
+    terminal: Terminal,
 }
 
 impl Editor {
@@ -24,7 +24,7 @@ impl Editor {
     }
 
     pub fn default() -> Self {
-        Self { 
+        Self {
             should_quit: false,
             terminal: Terminal::default().expect("Failed to initialize terminal"),
         }
