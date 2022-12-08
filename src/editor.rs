@@ -79,9 +79,22 @@ impl Editor {
         let pressed_keys = Terminal::read_key()?;
         match pressed_keys {
             Key::Ctrl('q') => self.should_quit = true,
+            Key::Up | Key::Down | Key::Left | Key::Right => self.move_cursor(pressed_keys),
             _ => (),
         }
         Ok(())
+    }
+
+    fn move_cursor(&mut self, key: Key) {
+        let Position { mut y, mut x } = self.cursor_position;
+        match key {
+            Key::Up => y = y.saturating_sub(1),
+            Key::Down => y = y.saturating_add(1),
+            Key::Left => x = x.saturating_sub(1),
+            Key::Right => x = x.saturating_add(1),
+            _ => (),
+        }
+        self.cursor_position = Position { x, y }
     }
 }
 
