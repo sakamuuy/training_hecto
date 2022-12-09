@@ -79,7 +79,14 @@ impl Editor {
         let pressed_keys = Terminal::read_key()?;
         match pressed_keys {
             Key::Ctrl('q') => self.should_quit = true,
-            Key::Up | Key::Down | Key::Left | Key::Right => self.move_cursor(pressed_keys),
+            Key::Up
+            | Key::Down
+            | Key::Left
+            | Key::Right
+            | Key::PageDown
+            | Key::PageUp
+            | Key::End
+            | Key::Home => self.move_cursor(pressed_keys),
             _ => (),
         }
         Ok(())
@@ -96,13 +103,17 @@ impl Editor {
                 if y < height {
                     y = y.saturating_add(1);
                 }
-            },
+            }
             Key::Left => x = x.saturating_sub(1),
             Key::Right => {
                 if x < width {
                     x = x.saturating_add(1);
                 }
             }
+            Key::PageUp => y = 0,
+            Key::PageDown => y = height,
+            Key::Home => x = 0,
+            Key::End => x = width,
             _ => (),
         }
         self.cursor_position = Position { x, y }
